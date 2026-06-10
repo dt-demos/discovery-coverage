@@ -48,7 +48,7 @@ discovery of its own.
 
 ## How it works
 
-The report is built from three Environment-API reads, then a join.
+The report is built from two Environment-API reads, then a join.
 
 1. **Discovery — what VMs exist.** Query the extension's VM topology entities
    (`type("<vm-entity-type>")`). Each entity is one discovered VM; identity and
@@ -62,25 +62,13 @@ The report is built from three Environment-API reads, then a join.
    *monitoring candidate* (known to Dynatrace but no OneAgent) and is treated as
    unmonitored.
 
-3. **Technologies — what's running.** Query `type(PROCESS_GROUP)` with
-   `softwareTechnologies` and the `runsOn` relationship to get the detected
-   stack per host. This drives the depth rules.
-
 **The join.** Monitored hosts are indexed by display name and
 `oneAgentCustomHostName`; each VM is matched either by a direct
 entity relationship (VMware) or by name. The outcome per VM:
 
 - **No matching host** → coverage gap → *Install OneAgent*.
-- **Matched, `CLOUD_INFRASTRUCTURE`** → *Consider Full-Stack* / enable extension.
+- **Matched, `CLOUD_INFRASTRUCTURE`** → *Consider Full-Stack*.
 - **Matched, `FULL_STACK`** → *No action*.
-
-On top of coverage, two advisory rule sets run over the monitored VMs:
-
-- **Discovery findings** — a database technology (`DATABASE_TECHS`) suggests at
-  least Infrastructure mode plus the matching Extensions 2.0 DB extension.
-- **Service coverage** — a service-tier technology (`SERVICE_TECHS`) on a
-  non-Full-Stack host suggests switching to Full-Stack to capture services and
-  traces.
 
 > **Join-key caveat.** Name matching assumes the guest hostname equals the VM's
 > inventory name, which is common but not guaranteed (most often a mismatch on
