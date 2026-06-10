@@ -1,6 +1,6 @@
 # Discovery & Coverage Summary — VMware vSphere, Nutanix AHV, Microsoft Hyper-V, OpenShift Virtualization
 
-_Generated 2026-06-10 15:27 UTC · --platform vmware nutanix hyperv openshift --summary-only --mock_
+_Generated 2026-06-10 15:35 UTC · --platform vmware nutanix hyperv openshift --summary-only --mock_
 
 - **Environment:** mock data
 - **Total VMs (powered on):** 24  Monitored: 12 (50.0%)  Gap: 12  Full-Stack: 4 (16.7%)

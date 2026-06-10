@@ -1,6 +1,6 @@
 # Discovery & Coverage
 
-_Generated 2026-06-10 15:27 UTC · --platform vmware nutanix hyperv openshift --mock_
+_Generated 2026-06-10 15:35 UTC · --platform vmware nutanix hyperv openshift --mock_
 
 ## Summary
 
