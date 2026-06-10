@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<title>Discovery &amp; Coverage</title>
+<style>
+  :root { --bg:#0f1419; --card:#1b2733; --line:#2a3947; --txt:#e6edf3;
+           --muted:#8b9aa8; --ok:#4caf78; --warn:#e0a93b; --crit:#e0533b; --accent:#4a9eff; }
+  * { box-sizing:border-box; }
+  body { margin:0; font:14px/1.5 -apple-system,Segoe UI,Roboto,sans-serif;
+          background:var(--bg); color:var(--txt); padding:32px; }
+  h1 { font-size:22px; margin:0 0 4px; }
+  h2 { font-size:18px; margin:40px 0 12px; border-bottom:2px solid var(--line); padding-bottom:6px; }
+  h3 { font-size:13px; margin:24px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px;
+       color:var(--muted); text-transform:uppercase; letter-spacing:.05em; }
+  .sub { color:var(--muted); margin:0 0 24px; }
+  .cards { display:flex; gap:16px; flex-wrap:wrap; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:10px;
+           padding:18px 22px; min-width:160px; }
+  .card .n { font-size:30px; font-weight:700; }
+  .card .l { color:var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:.05em; }
+  .bar { position:relative; background:#0a0e13; border:1px solid var(--line);
+          border-radius:6px; height:26px; margin:6px 0 18px; overflow:hidden; }
+  .bar .fill { height:100%; }
+  .bar span { position:absolute; right:10px; top:3px; font-weight:600; }
+  table { width:100%; border-collapse:collapse; background:var(--card);
+           border:1px solid var(--line); border-radius:10px; overflow:hidden; }
+  th,td { text-align:left; padding:9px 12px; border-bottom:1px solid var(--line); }
+  th { background:#16212c; color:var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:.04em; }
+  tr:last-child td { border-bottom:none; }
+  .tag { padding:2px 8px; border-radius:20px; font-size:12px; font-weight:600; }
+  .tag.ok { background:rgba(76,175,120,.18); color:var(--ok); }
+  .tag.warn { background:rgba(224,169,59,.18); color:var(--warn); }
+  .tag.crit { background:rgba(224,83,59,.18); color:var(--crit); }
+  .muted { color:var(--muted); }
+</style></head><body>
+<h1>Discovery &amp; Coverage</h1>
+<p class="sub">Generated 2026-06-10 15:27 UTC &middot; --platform vmware nutanix hyperv openshift --mock</p>
+
+<div class="cards">
+  <div class="card"><div class="n">28</div><div class="l">Total VMs</div></div>
+  <div class="card"><div class="n">4</div><div class="l">Powered off</div></div>
+  <div class="card"><div class="n">12</div><div class="l">Monitored (powered on)</div></div>
+  <div class="card"><div class="n">12</div><div class="l">Coverage gap</div></div>
+  <div class="card"><div class="n">4</div><div class="l">Full-Stack</div></div>
+</div>
+<p class="sub" style="margin-top:8px">Environment: mock data</p>
+
+<h2>OneAgent coverage</h2>
+<div class="bar"><div class="fill" style="width:50.0%;background:var(--ok)"></div><span>50.0%</span></div>
+<h2>Full-Stack depth</h2>
+<div class="bar"><div class="fill" style="width:16.7%;background:var(--accent)"></div><span>16.7%</span></div>
+
+<h2>Coverage by Cluster</h2>
+<table><thead><tr><th>Platform</th><th>Cluster</th><th>Total VMs</th><th>Powered Off</th><th>Monitored</th><th>Full-Stack</th><th>Gap</th><th>Coverage</th></tr></thead><tbody>
+<tr><td>Microsoft Hyper-V</td><td>PROD-CL1</td><td>4</td><td>1</td><td>3</td><td>1</td><td>0</td><td>100.0%</td></tr>
+<tr><td>Microsoft Hyper-V</td><td>PROD-CL2</td><td>3</td><td>0</td><td>0</td><td>0</td><td>3</td><td>0.0%</td></tr>
+<tr><td>Nutanix AHV</td><td>PROD-CL1</td><td>4</td><td>1</td><td>3</td><td>1</td><td>0</td><td>100.0%</td></tr>
+<tr><td>Nutanix AHV</td><td>PROD-CL2</td><td>3</td><td>0</td><td>0</td><td>0</td><td>3</td><td>0.0%</td></tr>
+<tr><td>OpenShift Virtualization</td><td>PROD-CL1</td><td>4</td><td>1</td><td>3</td><td>1</td><td>0</td><td>100.0%</td></tr>
+<tr><td>OpenShift Virtualization</td><td>PROD-CL2</td><td>3</td><td>0</td><td>0</td><td>0</td><td>3</td><td>0.0%</td></tr>
+<tr><td>VMware vSphere</td><td>PROD-CL1</td><td>4</td><td>1</td><td>3</td><td>1</td><td>0</td><td>100.0%</td></tr>
+<tr><td>VMware vSphere</td><td>PROD-CL2</td><td>3</td><td>0</td><td>0</td><td>0</td><td>3</td><td>0.0%</td></tr>
+<tr style='font-weight:700;border-top:2px solid var(--line)'><td></td><td>Total</td><td>28</td><td>4</td><td>12</td><td>4</td><td>12</td><td>50.0%</td></tr>
+</tbody></table>
+
+<h2>Discovery &mdash; VMware vSphere</h2>
+
+<h3>VM / Host coverage</h3>
+<table><thead><tr><th>Cluster</th><th>Cluster Node</th><th>VM Name</th><th>Entity ID</th>
+<th>Mode</th><th>Recommended action</th></tr></thead><tbody>
+<tr><td>PROD-CL1</td><td>node-01</td><td>decommissioned-vm-x</td><td>VM-007</td><td><span class='tag crit'>POWERED_OFF</span></td><td>Powered off — no action needed</td></tr>
+<tr><td>PROD-CL2</td><td>node-01</td><td>batch-vm-01</td><td>VM-005</td><td><span class='tag crit'>NONE</span></td><td>Install OneAgent</td></tr>
+<tr><td>PROD-CL2</td><td>node-03</td><td>db-vm-02</td><td>VM-004</td><td><span class='tag crit'>NONE</span></td><td>Install OneAgent</td></tr>
+<tr><td>PROD-CL2</td><td>node-03</td><td>legacy-vm-09</td><td>VM-006</td><td><span class='tag crit'>NONE</span></td><td>Install OneAgent</td></tr>
+<tr><td>PROD-CL1</td><td>node-02</td><td>db-vm-01</td><td>VM-003</td><td><span class='tag warn'>CLOUD_INFRASTRUCTURE</span></td><td>Consider Full-Stack</td></tr>
+<tr><td>PROD-CL1</td><td>node-01</td><td>web-vm-01</td><td>VM-001</td><td><span class='tag ok'>FULL_STACK</span></td><td>No action</td></tr>
+<tr><td>PROD-CL1</td><td>node-02</td><td>web-vm-02</td><td>VM-002</td><td><span class='tag warn'>CLOUD_INFRASTRUCTURE</span></td><td>Consider Full-Stack</td></tr>
+</tbody></table>
+
+<h3>Monitored hosts not matched to a VM (1)</h3>
+<p class="sub">1 monitored host(s) did not join to a discovered VMware vSphere VM (likely hosts from other platforms). Re-run with --show-unmatched-hosts to list them.</p>
+<h2>Discovery &mdash; Nutanix AHV</h2>
+
+<h3>VM / Host coverage</h3>
+<table><thead><tr><th>Cluster</th><th>Cluster Node</th><th>VM Name</th><th>Entity ID</th>
+<th>Mode</th><th>Recommended action</th></tr></thead><tbody>
+<tr><td>PROD-CL1</td><td>node-01</td><td>decommissioned-vm-x</td><td>VM-007</td><td><span class='tag crit'>POWERED_OFF</span></td><td>Powered off — no action needed</td></tr>
+<tr><td>PROD-CL2</td><td>node-01</td><td>batch-vm-01</td><td>VM-005</td><td><span class='tag crit'>NONE</span></td><td>Install OneAgent</td></tr>
+<tr><td>PROD-CL2</td><td>node-03</td><td>db-vm-02</td><td>VM-004</td><td><span class='tag crit'>NONE</span></td><td>Install OneAgent</td></tr>
+<tr><td>PROD-CL2</td><td>node-03</td><td>legacy-vm-09</td><td>VM-006</td><td><span class='tag crit'>NONE</span></td><td>Install OneAgent</td></tr>
+<tr><td>PROD-CL1</td><td>node-02</td><td>db-vm-01</td><td>VM-003</td><td><span class='tag warn'>CLOUD_INFRASTRUCTURE</span></td><td>Consider Full-Stack</td></tr>
+<tr><td>PROD-CL1</td><td>node-01</td><td>web-vm-01</td><td>VM-001</td><td><span class='tag ok'>FULL_STACK</span></td><td>No action</td></tr>
+<tr><td>PROD-CL1</td><td>node-02</td><td>web-vm-02</td><td>VM-002</td><td><span class='tag warn'>CLOUD_INFRASTRUCTURE</span></td><td>Consider Full-Stack</td></tr>
+</tbody></table>
+
+<h3>Monitored hosts not matched to a VM (1)</h3>
+<p class="sub">1 monitored host(s) did not join to a discovered Nutanix AHV VM (likely hosts from other platforms). Re-run with --show-unmatched-hosts to list them.</p>
+<h2>Discovery &mdash; Microsoft Hyper-V</h2>
+
+<h3>VM / Host coverage</h3>
+<table><thead><tr><th>Cluster</th><th>Cluster Node</th><th>VM Name</th><th>Entity ID</th>
+<th>Mode</th><th>Recommended action</th></tr></thead><tbody>
+<tr><td>PROD-CL1</td><td>node-01</td><td>decommissioned-vm-x</td><td>VM-007</td><td><span class='tag crit'>POWERED_OFF</span></td><td>Powered off — no action needed</td></tr>
+<tr><td>PROD-CL2</td><td>node-01</td><td>batch-vm-01</td><td>VM-005</td><td><span class='tag crit'>NONE</span></td><td>Install OneAgent</td></tr>
+<tr><td>PROD-CL2</td><td>node-03</td><td>db-vm-02</td><td>VM-004</td><td><span class='tag crit'>NONE</span></td><td>Install OneAgent</td></tr>
+<tr><td>PROD-CL2</td><td>node-03</td><td>legacy-vm-09</td><td>VM-006</td><td><span class='tag crit'>NONE</span></td><td>Install OneAgent</td></tr>
+<tr><td>PROD-CL1</td><td>node-02</td><td>db-vm-01</td><td>VM-003</td><td><span class='tag warn'>CLOUD_INFRASTRUCTURE</span></td><td>Consider Full-Stack</td></tr>
+<tr><td>PROD-CL1</td><td>node-01</td><td>web-vm-01</td><td>VM-001</td><td><span class='tag ok'>FULL_STACK</span></td><td>No action</td></tr>
+<tr><td>PROD-CL1</td><td>node-02</td><td>web-vm-02</td><td>VM-002</td><td><span class='tag warn'>CLOUD_INFRASTRUCTURE</span></td><td>Consider Full-Stack</td></tr>
+</tbody></table>
+
+<h3>Monitored hosts not matched to a VM (1)</h3>
+<p class="sub">1 monitored host(s) did not join to a discovered Microsoft Hyper-V VM (likely hosts from other platforms). Re-run with --show-unmatched-hosts to list them.</p>
+<h2>Discovery &mdash; OpenShift Virtualization</h2>
+
+<h3>VM / Host coverage</h3>
+<table><thead><tr><th>Namespace</th><th>Cluster Node</th><th>VM Name</th><th>Entity ID</th>
+<th>Mode</th><th>Recommended action</th></tr></thead><tbody>
+<tr><td>PROD-CL1</td><td>node-01</td><td>decommissioned-vm-x</td><td>VM-007</td><td><span class='tag crit'>POWERED_OFF</span></td><td>Powered off — no action needed</td></tr>
+<tr><td>PROD-CL2</td><td>node-01</td><td>batch-vm-01</td><td>VM-005</td><td><span class='tag crit'>NONE</span></td><td>Install OneAgent</td></tr>
+<tr><td>PROD-CL2</td><td>node-03</td><td>db-vm-02</td><td>VM-004</td><td><span class='tag crit'>NONE</span></td><td>Install OneAgent</td></tr>
+<tr><td>PROD-CL2</td><td>node-03</td><td>legacy-vm-09</td><td>VM-006</td><td><span class='tag crit'>NONE</span></td><td>Install OneAgent</td></tr>
+<tr><td>PROD-CL1</td><td>node-02</td><td>db-vm-01</td><td>VM-003</td><td><span class='tag warn'>CLOUD_INFRASTRUCTURE</span></td><td>Consider Full-Stack</td></tr>
+<tr><td>PROD-CL1</td><td>node-01</td><td>web-vm-01</td><td>VM-001</td><td><span class='tag ok'>FULL_STACK</span></td><td>No action</td></tr>
+<tr><td>PROD-CL1</td><td>node-02</td><td>web-vm-02</td><td>VM-002</td><td><span class='tag warn'>CLOUD_INFRASTRUCTURE</span></td><td>Consider Full-Stack</td></tr>
+</tbody></table>
+
+<h3>Monitored hosts not matched to a VM (1)</h3>
+<p class="sub">1 monitored host(s) did not join to a discovered OpenShift Virtualization VM (likely hosts from other platforms). Re-run with --show-unmatched-hosts to list them.</p>
+</body></html>
