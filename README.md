@@ -63,6 +63,7 @@ Sample output from `--mock` is pre-generated in [examples/reports/](examples/rep
 | `--out-dir` | `reports/` | Directory for the report files |
 | `--powered-on-only` | off | Restrict to powered-on VMs (default includes powered-off) |
 | `--show-unmatched-hosts` | off | List the full table of monitored hosts that didn't match a VM (count is always shown) |
+| `--max-vm-rows N` | `500` | Max VM rows in the detail table; `0` = unlimited. A truncation notice is shown when the limit is hit |
 | `--summary-only` | off | Output a grouped-counts-only report (no VM detail) |
 | `--list-entity-types` | — | List all entity types in the tenant and exit — `--platform` not required |
 | `--insecure` | off | Skip TLS verification (self-signed certs) |

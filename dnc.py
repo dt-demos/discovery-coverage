@@ -524,7 +524,7 @@ _HTML_STYLE = """
   .muted { color:var(--muted); }"""
 
 
-def render_html(results, combined_summary, generated, show_orphans=False, base_url="", cli_opts=""):
+def render_html(results, combined_summary, generated, show_orphans=False, base_url="", cli_opts="", max_vm_rows=500):
     all_vm_rows = [row for _, _, rows in results for row in rows]
 
     def bar(pct, color):
@@ -532,8 +532,11 @@ def render_html(results, combined_summary, generated, show_orphans=False, base_u
                 f'background:{color}"></div><span>{pct}%</span></div>')
 
     def vm_table(vm_rows):
+        sorted_rows = sorted(vm_rows, key=lambda x: (x["monitored"], x["group"], x["name"]))
+        limit = max_vm_rows if max_vm_rows > 0 else len(sorted_rows)
+        truncated = len(sorted_rows) - limit
         rows = []
-        for v in sorted(vm_rows, key=lambda x: (x["monitored"], x["group"], x["name"])):
+        for v in sorted_rows[:limit]:
             badge = ("ok" if v["monitoring_mode"] == "FULL_STACK"
                      else "warn" if v["monitored"] else "crit")
             rows.append(
@@ -541,6 +544,13 @@ def render_html(results, combined_summary, generated, show_orphans=False, base_u
                 f"<td>{_e(v['name'])}</td><td>{_e(v['entity_id'])}</td>"
                 f"<td><span class='tag {badge}'>{_e(v['monitoring_mode'])}</span></td>"
                 f"<td>{_e(v['recommended'])}</td></tr>"
+            )
+        if truncated > 0:
+            rows.append(
+                f"<tr><td colspan='6' class='muted' style='text-align:center;font-style:italic'>"
+                f"&#8230; {truncated} more VM(s) not shown &mdash; "
+                f"use <code>--max-vm-rows 0</code> to display all, "
+                f"or <code>--summary-only</code> for large environments.</td></tr>"
             )
         return "\n".join(rows)
 
@@ -609,7 +619,7 @@ def render_html(results, combined_summary, generated, show_orphans=False, base_u
 </body></html>"""
 
 
-def render_markdown(results, combined_summary, generated, show_orphans=False, base_url="", cli_opts=""):
+def render_markdown(results, combined_summary, generated, show_orphans=False, base_url="", cli_opts="", max_vm_rows=500):
     all_vm_rows = [row for _, _, rows in results for row in rows]
     lines = []
     lines.append("# Discovery & Coverage\n")
@@ -633,12 +643,19 @@ def render_markdown(results, combined_summary, generated, show_orphans=False, ba
         gl = platform.group_label
         lines.append(f"## Discovery — {platform.label}\n")
 
+        sorted_rows = sorted(vm_rows, key=lambda x: (x["monitored"], x["group"], x["name"]))
+        limit = max_vm_rows if max_vm_rows > 0 else len(sorted_rows)
+        truncated = len(sorted_rows) - limit
+
         lines.append(f"### VM / Host coverage\n")
         lines.append(f"| {gl} | Cluster Node | VM Name | Entity ID | Mode | Recommended action |")
         lines.append("|---------|--------------|---------|-----------|------|--------------------|")
-        for v in sorted(vm_rows, key=lambda x: (x["monitored"], x["group"], x["name"])):
+        for v in sorted_rows[:limit]:
             lines.append(f"| {v['group']} | {v['node']} | {v['name']} | "
                          f"{v['entity_id']} | {v['monitoring_mode']} | {v['recommended']} |")
+        if truncated > 0:
+            lines.append(f"| | | _… {truncated} more VM(s) not shown_ | | | "
+                         f"_Use `--max-vm-rows 0` or `--summary-only`_ |")
         lines.append("")
 
         orphan_count = len(summary["orphan_hosts"])
@@ -738,6 +755,10 @@ def main():
                          "(default: off — only a count is shown).")
     ap.add_argument("--summary-only", action="store_true", default=False,
                     help="Output a grouped-counts-only report (no VM detail).")
+    ap.add_argument("--max-vm-rows", type=int, default=500, metavar="N",
+                    help="Max VM rows in the detail table (default: 500). Use 0 for unlimited. "
+                         "When the limit is reached a truncation notice is shown; "
+                         "use --summary-only for large environments.")
     ap.add_argument("--mock", action="store_true", help="Use bundled sample data (no tenant).")
     ap.add_argument("--insecure", action="store_true",
                     help="Skip TLS verification (self-signed certs).")
@@ -837,7 +858,8 @@ def main():
         else:
             f.write(render_html(results, combined_summary, generated,
                                 show_orphans=args.show_unmatched_hosts,
-                                base_url=base_url, cli_opts=cli_opts))
+                                base_url=base_url, cli_opts=cli_opts,
+                                max_vm_rows=args.max_vm_rows))
     with open(md_path, "w", encoding="utf-8") as f:
         if args.summary_only:
             f.write(render_markdown_summary_only(results, combined_summary, generated,
@@ -845,7 +867,8 @@ def main():
         else:
             f.write(render_markdown(results, combined_summary, generated,
                                     show_orphans=args.show_unmatched_hosts,
-                                    base_url=base_url, cli_opts=cli_opts))
+                                    base_url=base_url, cli_opts=cli_opts,
+                                    max_vm_rows=args.max_vm_rows))
 
     print(f"\nCoverage: {combined_summary['coverage_pct']}%  "
           f"({combined_summary['monitored_vms']}/{combined_summary['candidate_vms']} powered-on VMs monitored)")
